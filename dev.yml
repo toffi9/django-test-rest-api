@@ -1,0 +1,32 @@
+version: '3.2'
+services:
+  database:
+    image: postgres:9.6.4
+    environment:
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: ./infra/api/Dockerfile
+      args:
+        REQUIREMENTS_FILE: dev.txt
+    image: django_test_rest_api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - static:/static
+      - media:/media
+    ports:
+      - '8000:8000'
+    depends_on:
+      - database
+    env_file: ./envs/.env.dev
+volumes:
+  pg-data:
+    driver: local
+  static:
+    driver: local
+  media:
+    driver: local
