@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   database:
-    image: postgres:9.6.4
+    image: postgres:9.6-alpine
     environment:
       - PGDATA=/var/lib/postgresql/data
     volumes:
@@ -19,7 +19,7 @@ services:
       - static:/static
       - media:/media
     ports:
-      - '8000:8000'
+      - "8000:8000"
     depends_on:
       - database
     env_file: ./envs/.env.dev

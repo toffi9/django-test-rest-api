@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.6-stretch
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
@@ -7,6 +7,8 @@ ARG REQUIREMENTS_FILE
 COPY requirements/ /code/
 RUN pip install -r $REQUIREMENTS_FILE && rm *.txt
 
-COPY django_test_rest_api /code/
+COPY src /code/
 COPY tests /code/
-COPY manage.py /code/
+
+WORKDIR /code/src/
+ENV PYTHONPATH=/code/src:/code/tests:$PYTHONPATH
