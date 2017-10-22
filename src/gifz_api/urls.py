@@ -4,6 +4,16 @@ from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
 
+app_urls_modules_v1 = [
+    'auth_ex.urls_v1',
+    # gifs.urls,
+]
+
+app_urls_v1 = [
+    url(r'', include(app_urls_module))
+    for app_urls_module in app_urls_modules_v1
+]
+
 urlpatterns = [
     url(
         r'^jet/',
@@ -15,14 +25,13 @@ urlpatterns = [
     ),
     url(
         r'^api/v1/',
-        include('django_test_rest_api.urls_v1', namespace='v1'),
+        include(app_urls_v1, 'v1'),
     ),
 ]
 
 if settings.DEBUG:
 
     import debug_toolbar
-
     urlpatterns += [
         url(
             r'^__debug__/',
@@ -37,6 +46,6 @@ if settings.DEBUG:
         ),
         url(
             r'^docs/',
-            include_docs_urls(title='Test REST API'),
+            include_docs_urls(title='Gifz API'),
         ),
     ]

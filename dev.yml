@@ -12,12 +12,12 @@ services:
       dockerfile: ./infra/django/Dockerfile
       args:
         REQUIREMENTS_FILE: dev.txt
-    image: django_test_rest_api
-    command: python manage.py runserver 0.0.0.0:8000
+    image: gifz_api
+    command: python src/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
-      - static:/static
-      - media:/media
+      - static:/_static
+      - media:/_media
     ports:
       - "8000:8000"
     depends_on:

@@ -27,9 +27,9 @@ install:
 
 script:
   # linting whole project (api, tests)
-  - docker-compose -f dev.yml run --rm api flake8
+  - docker-compose -f dev.yml run --rm django flake8
   # unit tests
-  - docker-compose -f dev.yml run --rm api pytest -vv
+  - docker-compose -f dev.yml run --rm django pytest -vv
 
 # TODO: pushing to ECR when master or develop is ok
 # after_success:

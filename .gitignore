@@ -1,7 +1,7 @@
 *.pyc
+.cache
 __pycache__
-.env
-.env.local
 .DS_Store
+.coverage
 /media
 /static

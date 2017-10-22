@@ -1,4 +1,5 @@
 import environ
+import datetime
 
 root = environ.Path(__file__)
 env = environ.Env()
@@ -18,13 +19,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stdimage',
+    'taggit',
     'rest_framework',
+    'django_filters',
+    'corsheaders',
+
+    # Local apps
+    'auth_ex',
     'gifs',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -40,7 +49,11 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
 
-ROOT_URLCONF = 'django_test_rest_api.urls'
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+    }
+
+ROOT_URLCONF = 'gifz_api.urls'
 
 TEMPLATES = [
     {
@@ -58,13 +71,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_test_rest_api.wsgi.application'
+WSGI_APPLICATION = 'gifz_api.wsgi.application'
 
 DATABASES = {
     'default': env.db(
-        default='postgres://postgres:postgres@database:5432/postgres',
+        default='postgres://postgres:postgres@postgres:5432/postgres',
     ),
 }
+
+AUTH_USER_MODEL = 'auth_ex.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -94,11 +109,22 @@ MEDIA_URL = env('MEDIA_URL', default='/media/')
 MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 1)('_media'))
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',  # noqa: E501
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
     'PAGE_SIZE': 5,
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=2),
+    'JWT_ALLOW_REFRESH': True,
 }

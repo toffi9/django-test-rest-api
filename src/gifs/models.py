@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from stdimage.models import StdImageField
+from stdimage.utils import UploadToUUID
 from taggit.managers import TaggableManager
 
 
@@ -12,8 +13,8 @@ class GIFEntry(TimeStampedModel):
         max_length=255,
     )
     gif_file = StdImageField(
-        # TODO: Special validator of filetype
-        upload_to='path/to/img',
+        upload_to=UploadToUUID(path='gifs'),
+        null=False,
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -24,8 +25,8 @@ class GIFEntry(TimeStampedModel):
     tags = TaggableManager()
 
     class Meta:
-        verbose_name = _('')
-        verbose_name_plural = _('')
+        verbose_name = _('gif entry')
+        verbose_name_plural = _('gif entries')
 
     def __str__(self):
         return self.title
