@@ -1,15 +1,15 @@
 version: '3.2'
 services:
-  database:
+  postgres:
     image: postgres:9.6-alpine
     environment:
       - PGDATA=/var/lib/postgresql/data
     volumes:
       - pg-data:/var/lib/postgresql/data
-  api:
+  django:
     build:
       context: .
-      dockerfile: ./infra/api/Dockerfile
+      dockerfile: ./infra/django/Dockerfile
       args:
         REQUIREMENTS_FILE: dev.txt
     image: django_test_rest_api
@@ -21,7 +21,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - database
+      - postgres
     env_file: ./envs/.env.dev
 volumes:
   pg-data:
