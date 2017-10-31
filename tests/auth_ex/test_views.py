@@ -1,8 +1,5 @@
 import pytest
-from mixer.backend.django import mixer
 from rest_framework.test import APIClient
-
-from auth_ex.models import User
 
 
 class UserViewSetTest:
@@ -12,11 +9,9 @@ class UserViewSetTest:
         return '/api/v1/users/'
 
     @pytest.mark.django_db
-    def test_list(self, url):
-        users = mixer.cycle(5).blend(User, is_superuser=False, is_active=True)
-
+    def test_list(self, url, list_of_5_users):
         client = APIClient()
-        client.force_authenticate(user=users[0])
+        client.force_authenticate(user=list_of_5_users[0])
 
         response = client.get(url)
         assert len(response.data['results']) == 5

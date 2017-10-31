@@ -1,5 +1,4 @@
 import pytest
-from mixer.backend.django import mixer
 
 
 class UserManagerTest:
@@ -9,10 +8,5 @@ class UserManagerTest:
 class UserTest:
 
     @pytest.mark.django_db
-    def test_full_name(self):
-        user = mixer.blend(
-            'auth_ex.User',
-            first_name='Tommy IV',
-            last_name='Lee',
-        )
-        assert user.full_name == 'Tommy IV Lee'
+    def test_full_name(self, simple_user):
+        assert simple_user.full_name == 'Tommy IV Lee'

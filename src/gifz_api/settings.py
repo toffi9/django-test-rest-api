@@ -1,5 +1,6 @@
-import environ
 import datetime
+
+import environ
 
 root = environ.Path(__file__)
 env = environ.Env()
@@ -103,10 +104,10 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = env('STATIC_URL', default='/static/')
-STATIC_ROOT = env('STATIC_ROOT', default=(root - 1)('_static'))
+STATIC_ROOT = env('STATIC_ROOT', default=(root - 4)('_static'))
 
 MEDIA_URL = env('MEDIA_URL', default='/media/')
-MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 1)('_media'))
+MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 4)('_media'))
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

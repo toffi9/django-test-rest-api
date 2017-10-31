@@ -1,5 +1,6 @@
 *.pyc
 .cache
+tags
 __pycache__
 .DS_Store
 .coverage

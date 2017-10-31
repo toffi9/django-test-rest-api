@@ -1,8 +1,0 @@
-languages:
-  Python: true
-
-exclude_paths:
-  - ".git"
-  - "__pycache__"
-  - "manage.py"
-  - "**/migrations/"

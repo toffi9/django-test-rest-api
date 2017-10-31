@@ -1,5 +1,4 @@
 import pytest
-from mixer.backend.django import mixer
 
 from auth_ex.models import User
 from auth_ex.serializers import UserSerializer
@@ -17,8 +16,7 @@ class UserSerializerTest:
             'email': 'n.freeman@gmail.co.uk',
             'is_active': True,
         }
-        user = mixer.blend(
-            User,
+        user = User.objects.create_user(
             username=user_data['username'],
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
