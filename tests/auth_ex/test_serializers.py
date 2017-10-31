@@ -17,11 +17,7 @@ class UserSerializerTest:
             'is_active': True,
         }
         user = User.objects.create_user(
-            username=user_data['username'],
-            first_name=user_data['first_name'],
-            last_name=user_data['last_name'],
-            email=user_data['email'],
-            is_active=user_data['is_active'],
+            **user_data,
         )
 
         serialized_user = UserSerializer(user).data

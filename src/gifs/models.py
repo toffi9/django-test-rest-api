@@ -7,6 +7,8 @@ from stdimage.models import StdImageField
 from stdimage.utils import UploadToUUID
 from taggit.managers import TaggableManager
 
+from .validators import validate_gif_file_extension
+
 
 class GIFEntry(TimeStampedModel):
     title = models.CharField(
@@ -15,6 +17,9 @@ class GIFEntry(TimeStampedModel):
     )
     gif_file = StdImageField(
         upload_to=UploadToUUID(path='gifs'),
+        validators=[
+            validate_gif_file_extension,
+        ],
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,

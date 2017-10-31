@@ -4,6 +4,7 @@ import uuid
 import pytest
 from gifs.models import GIFEntry
 
+from ..utils import get_error_dict_from_model_validation
 from .conftest import GIFS_DIR, UUID4Monkey
 
 uuid.__dict__['uuid4'] = lambda: UUID4Monkey()
@@ -17,6 +18,7 @@ class GIFEntryTest:
         gif_entry.title = 'Funny Cats'
         gif_entry.gif_file = gif_file
         gif_entry.author = simple_user
+        gif_entry.full_clean()
         gif_entry.save()
         gif_entry.tags.add('funny', 'cats')
 
@@ -32,6 +34,8 @@ class GIFEntryTest:
             gif_entry.gif_file.seek(0)
             assert gif_entry.gif_file.read() == f.read()
 
+        assert gif_entry.gif_file.size == 1030012
+
     @pytest.mark.django_db
     def test_gif_file_is_required(self, simple_user):
         gif_entry = GIFEntry(
@@ -39,12 +43,40 @@ class GIFEntryTest:
             author=simple_user,
         )
 
-        # with pytest.raises():
-        gif_entry.save()
+        error_dict = get_error_dict_from_model_validation(
+            gif_entry,
+        )
+        assert 'field cannot be blank' in str(error_dict['gif_file'])
 
-    # def test_if_jpeg_cant_be_passed(self, jpeg_file):
+    @pytest.mark.django_db
+    def test_if_jpg_cant_be_passed(self, jpg_file, simple_user):
+        gif_entry = GIFEntry(
+            title='JPG',
+            gif_file=jpg_file,
+            author=simple_user,
+        )
 
-    # def test_if_txt_cant_be_passed(self, txt_file):
+        error_dict = get_error_dict_from_model_validation(
+            gif_entry,
+        )
+        assert (
+            'File extension \'jpg\' is not allowed. Allowed extensions are:'
+        ) in str(error_dict['gif_file'])
+
+    @pytest.mark.django_db
+    def test_if_txt_cant_be_passed(self, txt_file, simple_user):
+        gif_entry = GIFEntry(
+            title='TXT',
+            gif_file=txt_file,
+            author=simple_user,
+        )
+
+        error_dict = get_error_dict_from_model_validation(
+            gif_entry,
+        )
+        assert (
+            'File extension \'txt\' is not allowed. Allowed extensions are:'
+        ) in str(error_dict['gif_file'])
 
     @pytest.mark.django_db
     def test_str_of_object(self, gif_entry):

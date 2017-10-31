@@ -14,23 +14,30 @@ class UUID4Monkey(object):
 GIFS_DIR = os.path.join(settings.MEDIA_ROOT, 'gifs')
 
 
+def file_fixture(test_file_path, file_path_after_save=None):
+    with open(test_file_path, 'rb') as f:
+        f.seek(0)
+        uploaded_file = SimpleUploadedFile(f.name, f.read())
+
+    yield uploaded_file
+
+    uploaded_file.close()
+    if (
+        file_path_after_save is not None and
+        os.path.exists(file_path_after_save)
+    ):
+        os.remove(file_path_after_save)
+
+
 @pytest.fixture()
 def gif_file():
-    file_path = './tests/fixtures/funny_cat.gif'
-
-    with open(file_path, 'rb') as f:
-        f.seek(0)
-        gif = SimpleUploadedFile(f.name, f.read())
-
-    yield gif
-
-    gif.close()
-
-    file_path_after_storage_save = os.path.join(
-        GIFS_DIR,
-        '{}.gif'.format(UUID4Monkey.hex),
+    yield from file_fixture(
+        './tests/fixtures/funny_cat.gif',
+        os.path.join(
+            GIFS_DIR,
+            '{}.gif'.format(UUID4Monkey.hex),
+        ),
     )
-    os.remove(file_path_after_storage_save)
 
 
 @pytest.fixture()
@@ -43,3 +50,31 @@ def gif_entry(simple_user, gif_file):
     gif_entry.save()
 
     return gif_entry
+
+
+@pytest.fixture()
+def list_of_3_gifs(simple_user, gif_file):
+    gif_entries = [
+        GIFEntry(
+            title='Funny Vines #{}'.format(i),
+            author=simple_user,
+            gif_file=gif_file,
+        )
+        for i in range(3)
+    ]
+
+    return GIFEntry.objects.bulk_create(gif_entries)
+
+
+@pytest.fixture()
+def jpg_file():
+    yield from file_fixture(
+        './tests/fixtures/panda.jpg',
+    )
+
+
+@pytest.fixture()
+def txt_file():
+    yield from file_fixture(
+        './tests/fixtures/file.txt',
+    )

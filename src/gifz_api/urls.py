@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
 app_urls_modules_v1 = [
     'auth_ex.urls_v1',
-    # gifs.urls,
+    'gifs.urls_v1',
 ]
 
 app_urls_v1 = [
@@ -48,3 +49,12 @@ if settings.DEBUG:
             include_docs_urls(title='Gifz API'),
         ),
     ]
+
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT,
+    )
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )

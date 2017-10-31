@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'stdimage',
     'taggit',
+    'taggit_serializer',
     'rest_framework',
     'django_filters',
     'corsheaders',
