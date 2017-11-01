@@ -1,13 +1,10 @@
 import os
-import uuid
 
 import pytest
 from gifs.models import GIFEntry
 
 from ..utils import get_error_dict_from_model_validation
 from .conftest import GIFS_DIR, UUID4Monkey
-
-uuid.__dict__['uuid4'] = lambda: UUID4Monkey()
 
 
 class GIFEntryTest:

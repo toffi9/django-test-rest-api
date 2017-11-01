@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stdimage',
+    'django_cleanup',
     'taggit',
     'taggit_serializer',
     'rest_framework',
@@ -112,7 +113,7 @@ MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 4)('_media'))
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -123,7 +124,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',  # noqa: E501
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 20,
 }
 
 JWT_AUTH = {

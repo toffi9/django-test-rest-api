@@ -1,4 +1,3 @@
-import uuid
 from urllib.parse import urljoin
 
 from django.conf import settings
@@ -8,8 +7,6 @@ from gifs.models import GIFEntry
 from gifs.serializers import GIFEntrySerializer
 
 from .conftest import UUID4Monkey
-
-uuid.__dict__['uuid4'] = lambda: UUID4Monkey()
 
 
 class GIFEntrySerializerTest:
@@ -24,8 +21,8 @@ class GIFEntrySerializerTest:
             ),
             'author': 1,
             'tags': [
-                'funny',
                 'cats',
+                'funny',
             ],
         }
 
@@ -42,4 +39,7 @@ class GIFEntrySerializerTest:
         gif_entry.tags.add(*data['tags'])
 
         serialized_data = GIFEntrySerializer(gif_entry).data
+
+        data['tags'].sort()
+        serialized_data['tags'].sort()
         assert serialized_data == data

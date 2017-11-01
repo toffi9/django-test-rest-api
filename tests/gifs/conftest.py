@@ -1,9 +1,9 @@
 import os
-
-from django.conf import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
+import uuid
 
 import pytest
+from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
 from gifs.models import GIFEntry
 
 
@@ -31,6 +31,8 @@ def file_fixture(test_file_path, file_path_after_save=None):
 
 @pytest.fixture()
 def gif_file():
+    uuid.__dict__['uuid4'] = lambda: UUID4Monkey()
+
     yield from file_fixture(
         './tests/fixtures/funny_cat.gif',
         os.path.join(
