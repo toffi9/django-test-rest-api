@@ -1,6 +1,8 @@
 import datetime
+import os
 
 import environ
+import raven
 
 root = environ.Path(__file__)
 env = environ.Env()
@@ -27,6 +29,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'raven.contrib.django.raven_compat',
+    'cachalot',
 
     # Local apps
     'auth_ex',
@@ -124,10 +128,28 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',  # noqa: E501
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',  # noqa: E501
-    'PAGE_SIZE': 20,
+    'PAGE_SIZE': 25,
 }
+
+GIFS_PAGE_SIZE = env('GIFS_PAGE_SIZE', default=40)
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=2),
     'JWT_ALLOW_REFRESH': True,
 }
+
+# --- CACHE ---
+CACHES = {
+    'default': env.cache(
+        default='redis://redis:6379/1?client_class=django_redis.client.DefaultClient',  # noqa: E501
+    ),
+}
+CACHALOT_ENABLED = env.bool('CACHALOT_ENABLED', default=False)
+CACHALOT_TIMEOUT = env('CACHALOT_TIMEOUT', default=60*20)
+
+SENTRY_ENABLED = env.bool('SENTRY_ENABLED', default=False)
+if SENTRY_ENABLED:
+    RAVEN_CONFIG = {
+        'dsn': env('RAVEN_DSN'),
+        'release': raven.fetch_git_sha((root - 3)()),
+    }

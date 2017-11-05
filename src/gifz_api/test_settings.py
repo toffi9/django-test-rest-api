@@ -10,3 +10,4 @@ DATABASES = {
 
 MEDIA_ROOT = (root - 4)('test_media')
 EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+CACHALOT_ENABLED = True

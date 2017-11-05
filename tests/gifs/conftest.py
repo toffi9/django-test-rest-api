@@ -30,8 +30,8 @@ def file_fixture(test_file_path, file_path_after_save=None):
 
 
 @pytest.fixture()
-def gif_file():
-    uuid.__dict__['uuid4'] = lambda: UUID4Monkey()
+def gif_file(monkeypatch):
+    monkeypatch.setitem(uuid.__dict__, 'uuid4', UUID4Monkey)
 
     yield from file_fixture(
         './tests/fixtures/funny_cat.gif',
