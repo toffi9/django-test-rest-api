@@ -9,23 +9,19 @@ services:
   redis:
     image: redis:3.2-alpine
   django:
-    build:
-      context: .
-      dockerfile: ./infra/django/Dockerfile
-      args:
-        REQUIREMENTS_FILE: dev.txt
+    build: .
     image: gifz_api
-    command: python src/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
-      - static:/_static
-      - media:/_media
+      - static:/static_files
+      - media:/media_files
     ports:
       - "8000:8000"
     depends_on:
       - postgres
       - redis
-    env_file: ./envs/.env.dev
+    env_file: .env
 volumes:
   pg-data:
     driver: local

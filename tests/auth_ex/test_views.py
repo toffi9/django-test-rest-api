@@ -1,9 +1,9 @@
-import pytest
 from rest_framework.test import APIClient
+
+import pytest
 
 
 class UserViewSetTest:
-
     @pytest.fixture(scope='class')
     def url(self):
         return '/api/v1/users/'

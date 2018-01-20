@@ -1,8 +1,9 @@
-import pytest
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
-from gifs.models import GIFEntry
+import pytest
+
+from gifz_api.gifs.models import GIFEntry
 
 
 @pytest.mark.django_db

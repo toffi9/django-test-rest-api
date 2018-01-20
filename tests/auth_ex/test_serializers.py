@@ -1,11 +1,10 @@
-import pytest
+from gifz_api.auth_ex.models import User
+from gifz_api.auth_ex.serializers import UserSerializer
 
-from auth_ex.models import User
-from auth_ex.serializers import UserSerializer
+import pytest
 
 
 class UserSerializerTest:
-
     @pytest.mark.django_db
     def test_data(self):
         user_data = {

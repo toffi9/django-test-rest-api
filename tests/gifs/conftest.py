@@ -1,17 +1,19 @@
 import os
 import uuid
 
-import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from gifs.models import GIFEntry
+
+import pytest
+
+from gifz_api.gifs.models import GIFEntry
+
+
+GIFS_DIR = os.path.join(settings.MEDIA_ROOT, 'gifs')
 
 
 class UUID4Monkey(object):
     hex = '653d1c6863404b9689b75fa930c9d0a0'
-
-
-GIFS_DIR = os.path.join(settings.MEDIA_ROOT, 'gifs')
 
 
 def file_fixture(test_file_path, file_path_after_save=None):

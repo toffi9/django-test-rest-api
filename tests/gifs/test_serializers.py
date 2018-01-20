@@ -3,8 +3,9 @@ from urllib.parse import urljoin
 from django.conf import settings
 
 import pytest
-from gifs.models import GIFEntry
-from gifs.serializers import GIFEntrySerializer
+
+from gifz_api.gifs.models import GIFEntry
+from gifz_api.gifs.serializers import GIFEntrySerializer
 
 from .conftest import UUID4Monkey
 
