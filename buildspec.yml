@@ -2,8 +2,8 @@ version: 0.2
 
 env:
   variables:
-  # TODO: installing newest version of docker-compose always
-  - DOCKER_COMPOSE_VERSION=1.16.1
+    # TODO: installing newest version of docker-compose always
+    DOCKER_COMPOSE_VERSION: "1.16.1"
 
 phases:
 
