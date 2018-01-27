@@ -7,6 +7,17 @@ services:
 env:
   - DOCKER_COMPOSE_VERSION=1.18.0
 
+before_cache:
+  # Save tagged docker images
+  - >
+    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+
+cache:
+  bundler: true
+  directories:
+    - $HOME/docker
+
 before_install:
   # Installing newest docker-ce
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -20,9 +31,11 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
-  - cp .env.example .env
+  # Load cached docker images
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 install:
+  - cp .env.example .env
   - docker-compose -f dev.yml build
 
 script:
