@@ -1,6 +1,7 @@
 import environ
 import raven
 
+
 root = environ.Path(__file__)
 env = environ.Env()
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from taggit_serializer.serializers import (
     TaggitSerializer,
-    TagListSerializerField
+    TagListSerializerField,
 )
 
 from .models import GIFEntry

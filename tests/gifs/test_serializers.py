@@ -1,8 +1,7 @@
 from urllib.parse import urljoin
 
-from django.conf import settings
-
 import pytest
+from django.conf import settings
 
 from gifz_api.gifs.models import GIFEntry
 from gifz_api.gifs.serializers import GIFEntrySerializer

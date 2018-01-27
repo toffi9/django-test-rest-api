@@ -1,13 +1,13 @@
 version: '3.2'
 services:
   postgres:
-    image: postgres:9.6-alpine
+    image: postgres:10-alpine
     environment:
       - PGDATA=/var/lib/postgresql/data
     volumes:
       - pg-data:/var/lib/postgresql/data
   redis:
-    image: redis:3.2-alpine
+    image: redis:4-alpine
   django:
     build: .
     image: gifz_api

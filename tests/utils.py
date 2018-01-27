@@ -1,6 +1,5 @@
-from django.core.exceptions import ValidationError
-
 import pytest
+from django.core.exceptions import ValidationError
 
 
 def get_error_dict_from_model_validation(obj):

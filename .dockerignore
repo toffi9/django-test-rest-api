@@ -1,6 +1,5 @@
 .*
 !.coveragerc
-!.flake8
 !.env
 dev.yml
 *.md

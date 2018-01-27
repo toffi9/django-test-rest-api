@@ -1,5 +1,9 @@
 from .settings import *  # noqa
-from .settings import root, INSTALLED_APPS
+from .settings import (
+    INSTALLED_APPS,
+    root,
+)
+
 
 INSTALLED_APPS = [
     app for app in INSTALLED_APPS
@@ -7,10 +11,10 @@ INSTALLED_APPS = [
 ]
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-    }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    },
 }
 
 MEDIA_ROOT = (root - 3)('test_media')

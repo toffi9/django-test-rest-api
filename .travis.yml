@@ -5,8 +5,7 @@ services:
   - docker
 
 env:
-  # TODO: installing newest version of docker-compose always
-  - DOCKER_COMPOSE_VERSION=1.16.1
+  - DOCKER_COMPOSE_VERSION=1.18.0
 
 before_install:
   # Installing newest docker-ce
@@ -26,10 +25,9 @@ install:
   - docker-compose -f dev.yml build
 
 script:
-  # linting whole project (api, tests)
-  - docker-compose -f dev.yml run --rm django flake8
-  # unit tests
-  - docker-compose -f dev.yml run --rm django pytest -vv
+  - make isort
+  - make lint
+  - make test
 
 # TODO: pushing to ECR when master or develop is ok
 # after_success:

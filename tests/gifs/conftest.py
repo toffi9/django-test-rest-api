@@ -1,10 +1,9 @@
 import os
 import uuid
 
+import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-
-import pytest
 
 from gifz_api.gifs.models import GIFEntry
 

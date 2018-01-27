@@ -4,7 +4,10 @@ import secrets
 
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import (
+    BaseCommand,
+    CommandError,
+)
 
 from gifz_api.gifs.models import GIFEntry
 

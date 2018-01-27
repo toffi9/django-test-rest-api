@@ -5,10 +5,14 @@ import pytest
 from gifz_api.gifs.models import GIFEntry
 
 from ..utils import get_error_dict_from_model_validation
-from .conftest import GIFS_DIR, UUID4Monkey
+from .conftest import (
+    GIFS_DIR,
+    UUID4Monkey,
+)
 
 
 class GIFEntryTest:
+
     @pytest.mark.django_db
     def test_has_proper_fields(self, gif_file, simple_user):
         gif_entry = GIFEntry()

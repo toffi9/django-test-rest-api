@@ -1,4 +1,5 @@
 *.pyc
+.mypy_cache/
 .cache
 tags
 gifs_db
